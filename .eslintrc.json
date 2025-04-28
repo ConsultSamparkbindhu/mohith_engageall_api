@@ -1,0 +1,12 @@
+{
+    "extends": ["standard", "prettier"],
+    "rules": {
+      "prettier/prettier": "error"
+    },
+    "plugins": ["prettier"],
+    "env": {
+      "node": true,
+      "es6": true
+    }
+  }
+  
