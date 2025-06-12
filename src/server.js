@@ -14,15 +14,15 @@ api.use((_req, res, next) => {
   next();
 });
 
-api.post('/orgDetails', async (req, res, next) => {
+api.post('/orgDetails-new', async (req, res, next) => {
   const result = await OrgDetails(req);
   res.cors();
   return result;
 });
 
-api.get('/getOrgDetails', GetOrgDetails);
-api.post('/userDetails', UserDetails);
-api.get('/getUserDetails', GetUserDetails);
+api.get('/getOrgDetails-new', GetOrgDetails);
+api.post('/userDetails-new', UserDetails);
+api.get('/getUserDetails-new', GetUserDetails);
 
 export const router = async (event, context, cb) => {
   console.log('im inside router');
