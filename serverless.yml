@@ -120,16 +120,16 @@ functions:
       - http:
           cors: true
           method: post
-          path: /orgDetails
+          path: /orgDetails-new
       - http:
           cors: true
           method: get
-          path: /getOrgDetails
+          path: /getOrgDetails-new
       - http:
           cors: true
           method: post
-          path: /userDetails
+          path: /userDetails-new
       - http:
           cors: true
           method: get
-          path: /getUserDetails
+          path: /getUserDetails-new
