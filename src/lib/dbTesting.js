@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 
 import { DynamoDB, CognitoIdentityServiceProvider } from 'aws-sdk';
@@ -5,7 +6,6 @@ import { DynamoDB, CognitoIdentityServiceProvider } from 'aws-sdk';
 const db = new DynamoDB.DocumentClient({ region: 'ap-south-1' });
 const cognito = new CognitoIdentityServiceProvider();
 const TABLE_NAME = process.env.ORGANIZATION_TABLE;
-const USER_POOL_ID = process.env.USER_POOL_ID;
 
 /**
  * Fetches organization details from DynamoDB.
@@ -72,7 +72,7 @@ async function fetchOrgFromCognito(username) {
       return {
         orgId: attributes["custom:orgid"] || username,
         orgName: attributes["custom:orgName"] || "Unknown Org",
-        email: attributes["email"] || "No Email",
+        email: attributes.email || "No Email",
         isNewClient: attributes["custom:is_New_Client"] || "Unknown",
       };
     } catch (error) {

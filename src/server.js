@@ -1,11 +1,10 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 import createAPI from 'lambda-api';
 import { OrgDetails, GetOrgDetails } from './lib/orgDetails';
 import { UserDetails, GetUserDetails } from './lib/userDetails';
 
 const api = createAPI({ logger: true });
-const AWS = require('aws-sdk');
-
 api.use((_req, res, next) => {
   // Add default CORS headers for every request
   res.cors({

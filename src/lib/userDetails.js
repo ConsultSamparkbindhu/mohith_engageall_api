@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 
 import { DynamoDB } from 'aws-sdk';
@@ -16,7 +17,7 @@ export async function UserDetails(req, res) {
   const { pk, user } = data;
 
   // Determine prefix based on user type
-  const prefix = user === 'customer' ? 'BYR' : 'SLR';
+  const prefix = user === 'Customer' ? 'BYR' : 'SLR';
 
   try {
     // Query the table to get the last used `sk` with the specific prefix
@@ -33,7 +34,7 @@ export async function UserDetails(req, res) {
 
     const queryResult = await db.query(queryParams).promise();
 
-    let newSk;
+    let newSk = '';
     let nextNumber = 1; // Default value for the first item
 
     // Check if there are previous items
@@ -48,10 +49,10 @@ export async function UserDetails(req, res) {
       }
     }
 
-    // Generate the new `sk` (e.g., 'user#BYR001', 'user#SLR001')
+    // Generate the new `sk` (e.g., 'user#BYR001', 'user#SLR001'
     newSk = `user#${prefix}${String(nextNumber).padStart(3, '0')}`;
     console.log('Generated sk:', newSk);
-    const userCode = `${prefix}${String(nextNumber).padStart(3, '0')}`
+    const userCode = `${prefix}${String(nextNumber).padStart(3, '0')}`;
 
     // Add user details with the generated `sk`
     const params = {
