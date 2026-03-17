@@ -1,0 +1,26 @@
+import { S3 } from "aws-sdk";
+import { fromBuffer } from "file-type";
+const s3 = new S3();
+const bucket = process.env.USER_DATA_BUCKET;
+async function uploadFileToS3(file, phno)
+{
+
+    const key = `${phno}/${file.fieldname}`
+    const body = Buffer.from(file.content, "base64");
+    const file_type = await fromBuffer(body);
+    const params = {
+        Bucket : bucket,
+        Key : key,
+        Body : body, 
+        ContentType : file_type.mime
+      };
+    const fileUrl = await s3.upload(params).promise();
+    //await writeToLogGroup(`File uploaded for the user ${phno}, from registerUser, register.js`, logGroupName, logStreamName, 'INFO')
+
+    return fileUrl.Location;
+}
+
+
+export default {
+    uploadFileToS3
+};

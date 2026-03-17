@@ -78,44 +78,46 @@ export async function UserDetails(req, res) {
 }
 
 export async function GetUserDetails(req, res) {
-  const { orgId } = req.query;
-  const pk = orgId;
 
-  // DynamoDB query to fetch only items where the sort key starts with 'user#'
-  const params = {
-    TableName: process.env.ORGANIZATION_TABLE,
-    KeyConditionExpression: 'pk = :pk AND begins_with(sk, :skPrefix)',
-    ExpressionAttributeValues: {
-      ':pk': pk,
-      ':skPrefix': 'user#', // Only fetch items with sk that starts with 'user#'
-    },
-  };
+  const { orgId } = req.query;
 
   try {
-    // Query DynamoDB
-    const result = await db.query(params).promise();
 
-    // Filter and categorize the results based on the `sk` prefix
+    // Fetch all users for the org
+    const [rows] = await db.query(
+      `SELECT * FROM users WHERE org_id = ?`,
+      [orgId]
+    );
+
     const customers = [];
     const suppliers = [];
 
-    result.Items.forEach((item) => {
-      const sk = item.sk;
-      if (sk.startsWith('user#BYR')) {
+    rows.forEach((item) => {
+
+      if (item.user_code.startsWith("BYR")) {
         customers.push(item);
-      } else if (sk.startsWith('user#SLR')) {
+      } 
+      else if (item.user_code.startsWith("SLR")) {
         suppliers.push(item);
       }
+
     });
 
-    // Send categorized data to the front end
     res.status(200).json({
-      message: 'Users fetched successfully',
+      message: "Users fetched successfully",
       customers,
-      suppliers,
+      suppliers
     });
+
   } catch (error) {
-    console.error('Error while fetching user details:', error);
-    res.status(500).json({ message: 'Error', error: error.message });
+
+    console.error("Error while fetching user details:", error);
+
+    res.status(500).json({
+      message: "Error",
+      error: error.message
+    });
+
   }
+
 }
